@@ -1,0 +1,111 @@
+{
+  "_meta": {
+    "template_version": 0
+  },
+  "fixtures": [
+    {
+      "name": "basic",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Basic",
+        "description": "Perfect product for small businesses.",
+        "metadata": {
+          "price_card_variant": "basic",
+          "generated_images": 10,
+          "image_editor": "basic",
+          "support_level": "email"
+        }
+      }
+    },
+    {
+      "name": "price_basic_month",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${basic:id}",
+        "currency": "usd",
+        "billing_scheme": "per_unit",
+        "unit_amount": 500,
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        }
+      }
+    },
+    {
+      "name": "price_basic_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${basic:id}",
+        "currency": "usd",
+        "billing_scheme": "per_unit",
+        "unit_amount": 5000,
+        "recurring": {
+          "interval": "year",
+          "interval_count": 1
+        }
+      }
+    },
+    {
+      "name": "pro",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Pro",
+        "description": "Perfect product for growing or large businesses.",
+        "metadata": {
+          "price_card_variant": "pro",
+          "generated_images": 100,
+          "image_editor": "pro",
+          "support_level": "live"
+        }
+      }
+    },
+    {
+      "name": "price_pro_month",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${pro:id}",
+        "currency": "usd",
+        "billing_scheme": "per_unit",
+        "unit_amount": 1000,
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
+        }
+      }
+    },
+    {
+      "name": "price_pro_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${pro:id}",
+        "currency": "usd",
+        "billing_scheme": "per_unit",
+        "unit_amount": 10000,
+        "recurring": {
+          "interval": "year",
+          "interval_count": 1
+        }
+      }
+    },
+    {
+      "name": "enterprise",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Enterprise",
+        "description": "Perfect product for enterprises.",
+        "metadata": {
+          "price_card_variant": "enterprise",
+          "image_editor": "pro",
+          "support_level": "live"
+        }
+      }
+    }
+  ]
+}
