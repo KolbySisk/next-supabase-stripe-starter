@@ -55,7 +55,7 @@
     "postcss": "8.4.23",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "0.3.0",
-    "supabase": "1.115.5",
+    "supabase": "1.145.4",
     "typescript": "5.3.3"
   }
 }
