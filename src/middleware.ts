@@ -1,12 +1,21 @@
 import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
 
-import type { Database } from '@/libs/supabase/types';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { supabaseMiddlewareClient } from './libs/supabase/supabase-middleware-client';
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient<Database>({ req, res });
+  const { supabase, user, res } = await supabaseMiddlewareClient(req);
+
+  /**
+   * You can perform route guarding here like:
+   *
+   * const pathname = req.nextUrl.pathname;
+   *
+   * if (!user && pathname.startsWith('/dashboard')) {
+   *   const redirectUrl = req.nextUrl.clone();
+   *   redirectUrl.pathname = '/';
+   *   return NextResponse.redirect(redirectUrl);
+   * }
+   */
 
   return res;
 }
@@ -14,12 +23,13 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
+     * Match all request paths except:
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
+     * Feel free to modify this pattern to include more paths.
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

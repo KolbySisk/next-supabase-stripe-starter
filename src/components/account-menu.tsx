@@ -11,27 +11,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSupabase } from '@/libs/supabase/supabase-provider';
+import { ActionResponse } from '@/types/action-response';
 
 import { useToast } from './ui/use-toast';
 
-export function AccountMenu() {
+export function AccountMenu({ signOut }: { signOut: () => Promise<ActionResponse> }) {
   const router = useRouter();
-  const { supabase } = useSupabase();
   const { toast } = useToast();
 
   async function handleLogoutClick() {
-    const { error } = await supabase.auth.signOut();
+    const response = await signOut();
 
-    router.refresh();
-
-    if (error) {
-      console.error(error);
+    if (response?.error) {
       toast({
         variant: 'destructive',
         description: 'An error occurred while logging out. Please try again or contact support.',
       });
     } else {
+      router.refresh();
+
       toast({
         description: 'You have been logged out.',
       });

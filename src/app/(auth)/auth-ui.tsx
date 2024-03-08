@@ -9,72 +9,58 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { useSupabase } from '@/libs/supabase/supabase-provider';
-import { getURL } from '@/utils/get-url';
+import { ActionResponse } from '@/types/action-response';
 
 const titleMap = {
   login: 'Login to UPDATE_THIS_WITH_YOUR_APP_DISPLAY_NAME',
   signup: 'Join UPDATE_THIS_WITH_YOUR_APP_DISPLAY_NAME and start generating banners for free',
 } as const;
 
-const siteUrl = getURL();
-
-export function AuthUI({ mode }: { mode: 'login' | 'signup' }) {
-  const { supabase } = useSupabase();
+export function AuthUI({
+  mode,
+  signInWithOAuth,
+  signInWithEmail,
+}: {
+  mode: 'login' | 'signup';
+  signInWithOAuth: (provider: 'github' | 'google') => Promise<ActionResponse>;
+  signInWithEmail: (email: string) => Promise<ActionResponse>;
+}) {
   const [pending, setPending] = useState(false);
   const [emailFormOpen, setEmailFormOpen] = useState(false);
 
-  async function signInWithOAuth(provider: 'github' | 'google') {
+  async function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setPending(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${siteUrl}/auth/callback`,
-      },
-    });
-    if (error) {
-      toast({
-        variant: 'destructive',
-        description: 'An error occurred while authenticating. Please try again.',
-      });
-      console.error(error);
-    }
-  }
+    const form = event.target as HTMLFormElement;
+    const email = form['email'].value;
+    const response = await signInWithEmail(email);
 
-  async function signInWithEmail(email: string) {
-    setPending(true);
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${siteUrl}/auth/callback`,
-      },
-    });
-    if (error) {
+    if (response?.error) {
       toast({
         variant: 'destructive',
         description: 'An error occurred while authenticating. Please try again.',
       });
-      console.error(error);
     } else {
       toast({
         description: `To continue, click the link in the email sent to: ${email}`,
       });
     }
-  }
 
-  function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPending(true);
-    const form = event.target as HTMLFormElement;
-    const email = form['email'].value;
-    signInWithEmail(email);
     form.reset();
     setPending(false);
   }
 
-  function handleOAuthClick(provider: 'google' | 'github') {
+  async function handleOAuthClick(provider: 'google' | 'github') {
     setPending(true);
-    signInWithOAuth(provider);
+    const response = await signInWithOAuth(provider);
+
+    if (response?.error) {
+      toast({
+        variant: 'destructive',
+        description: 'An error occurred while authenticating. Please try again.',
+      });
+      setPending(false);
+    }
   }
 
   return (

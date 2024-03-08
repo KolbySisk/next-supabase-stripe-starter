@@ -7,13 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { getSession } from '@/features/account/controllers/get-session';
 
+import { signOut } from './(auth)/auth-actions';
+
 export async function Navigation() {
   const session = await getSession();
 
   return (
     <div className='relative flex items-center gap-6'>
       {session ? (
-        <AccountMenu />
+        <AccountMenu signOut={signOut} />
       ) : (
         <>
           <Button variant='sexy' className='hidden flex-shrink-0 lg:flex' asChild>

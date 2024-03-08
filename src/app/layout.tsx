@@ -6,7 +6,6 @@ import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5'
 
 import { Logo } from '@/components/logo';
 import { Toaster } from '@/components/ui/toaster';
-import { SupabaseProvider } from '@/libs/supabase/supabase-provider';
 import { cn } from '@/utils/cn';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -36,15 +35,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='en'>
       <body className={cn('font-sans antialiased', montserrat.variable, montserratAlternates.variable)}>
-        <SupabaseProvider>
-          <div className='m-auto flex h-full max-w-[1440px] flex-col px-4'>
-            <AppBar />
-            <main className='relative flex-1'>
-              <div className='relative h-full'>{children}</div>
-            </main>
-            <Footer />
-          </div>
-        </SupabaseProvider>
+        <div className='m-auto flex h-full max-w-[1440px] flex-col px-4'>
+          <AppBar />
+          <main className='relative flex-1'>
+            <div className='relative h-full'>{children}</div>
+          </main>
+          <Footer />
+        </div>
         <Toaster />
         <Analytics />
       </body>
@@ -111,7 +108,9 @@ function Footer() {
         </div>
       </div>
       <div className='border-t border-zinc-800 py-6 text-center'>
-        <span className='text-neutral4 text-xs'>Copyright {new Date().getFullYear()} © UPDATE_THIS_WITH_YOUR_APP_DISPLAY_NAME</span>
+        <span className='text-neutral4 text-xs'>
+          Copyright {new Date().getFullYear()} © UPDATE_THIS_WITH_YOUR_APP_DISPLAY_NAME
+        </span>
       </div>
     </footer>
   );

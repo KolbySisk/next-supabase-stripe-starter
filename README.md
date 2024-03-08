@@ -156,6 +156,16 @@ There are many auth providers you can choose from. [See the Supabase docs](https
 
 The file structure uses the group by `feature` concept. This is where you will colocate code related to a specific feature, with the exception of UI code. Typically you want to keep your UI code in the `app` dir, with the exception of reusable components. Most of the time reusable components will be agnostic to a feature and should live in the `components` dir. The `components/ui` dir is where `shadcn/ui` components are generated to.
 
+### Going live
+
+Follow these steps when you're ready to go live:
+
+- [ ] Activate your Stripe account and set the dashboard to live mode
+- [ ] Repeat the steps above to create a Stripe webhook in live mode, this time using your live url
+- [ ] Update Vercel env variables with your live Stripe pk, sk, and whsec
+- [ ] After Vercel has redeployed with your new env variables, run the fixture command using your Stripe sk
+- [ ] [Configure Supabase SMTP](https://supabase.com/docs/guides/auth/auth-smtp). I recommend using Resend, it's super easy to add with [the Resend integration](https://supabase.com/partners/integrations/resend)
+
 ---
 
 ## Support

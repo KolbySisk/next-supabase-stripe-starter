@@ -1,7 +1,7 @@
-import { supabaseServerClient } from '@/libs/supabase/supabase-server-client';
+import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 
 export async function getSession() {
-  const supabase = supabaseServerClient();
+  const supabase = createSupabaseServerClient();
 
   const { data, error } = await supabase.auth.getSession();
 

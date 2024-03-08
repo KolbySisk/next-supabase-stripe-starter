@@ -1,7 +1,7 @@
-import { supabaseServerClient } from '@/libs/supabase/supabase-server-client';
+import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 
 export async function getSubscription() {
-  const supabase = supabaseServerClient();
+  const supabase = createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from('subscriptions')
@@ -9,7 +9,9 @@ export async function getSubscription() {
     .in('status', ['trialing', 'active'])
     .maybeSingle();
 
-  console.error(error);
+  if (error) {
+    console.error(error);
+  }
 
   return data;
 }
