@@ -22,6 +22,7 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 
 - [Supabase](https://supabase.com) - Postgres database & user authentication
 - [Stripe](https://stripe.com) - [Checkout](https://stripe.com/docs/payments/checkout), [subscriptions](https://stripe.com/docs/billing/subscriptions/overview), and [customer portal](https://stripe.com/docs/customer-management)
+- [React Email](https://react.email/) - Easily build emails and send them with [Resend](https://resend.com)
 - [Tailwindcss](https://tailwindcss.com/) - CSS framework
 - [shadcn/ui](https://ui.shadcn.com) - Prebuilt accessible components
 - Webhooks to automatically synchronize Stripe with Supabase
@@ -43,9 +44,15 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 1. Go to [stripe.com](https://stripe.com) and create a project
 1. Go to [Customer Portal Settings](https://dashboard.stripe.com/test/settings/billing/portal) and click the `Active test link` button
 
-### 3. Deploy
+### 3. Setup Resend
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FKolbySisk%2Fnext-supabase-stripe-starter&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,SUPABASE_DB_PASSWORD,NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,STRIPE_SECRET_KEY,STRIPE_WEBHOOK_SECRET&demo-title=AI%20Twitter%20Banner%20Demo&demo-url=https%3A%2F%2Fai-twitter-banner.vercel.app&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6)
+1. Go to [resend.com](https://resend.com) and create an account
+1. Go to the [API Keys page](https://resend.com/api-keys) and create an API Key
+1. Add the [Supabase Resend integration](https://supabase.com/partners/integrations/resend)
+
+### 4. Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FKolbySisk%2Fnext-supabase-stripe-starter&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,SUPABASE_DB_PASSWORD,NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,STRIPE_SECRET_KEY,STRIPE_WEBHOOK_SECRET,RESEND_API_KEY&demo-title=AI%20Twitter%20Banner%20Demo&demo-url=https%3A%2F%2Fai-twitter-banner.vercel.app&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6)
 
 1. Next click the deploy button ⬆️
 1. On the form create a new repo and add the Supabase integration
@@ -55,7 +62,7 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 
 ![Vercel env config](/delete-me/deplyoment-env.png)
 
-### 4. Stripe Webhook
+### 5. Stripe Webhook
 
 1. After deploying go to your Vercel dashboard and find your Vercel URL
 1. Next go to your Stripe dashboard, click `Developers` in the top nav, and then the `Webhooks` tab
@@ -67,7 +74,7 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 1. Go to your `Vercel project settings` → `Environment Variables`
 1. Update the value of the `STRIPE_WEBHOOK_SECRET` env with your newly acquired webhook secret. Press `Save`
 
-### 5. Run Supabase Migration
+### 6. Run Supabase Migration
 
 Now we're going to run the initial [Supabase Migration](https://supabase.com/docs/reference/cli/supabase-migration-new) to create your database tables.
 
@@ -77,19 +84,19 @@ Now we're going to run the initial [Supabase Migration](https://supabase.com/doc
 1. Run `npm run supabase:link`
 1. Run `npm run migration:up`
 
-### 6. Run Stripe Fixture
+### 7. Run Stripe Fixture
 
 [Stripe fixtures](https://stripe.com/docs/cli/fixtures) are an easy way to configure your product offering without messing around in the Stripe UI.
 
 1. Install the [Stripe CLI](https://stripe.com/docs/stripe-cli#install). For Macs run: `brew install stripe/stripe-cli/stripe`
-2. Run (make sure to update the command with your Stripe sk) `stripe fixtures ./stripe-fixtures.json --api-key UPDATE_THIS_WITH_YOUR_STRIPE_SK`
+1. Run (make sure to update the command with your Stripe sk) `stripe fixtures ./stripe-fixtures.json --api-key UPDATE_THIS_WITH_YOUR_STRIPE_SK`
 
-### 7. Last steps
+### 8. Last steps
 
-1. Do a `Search All` in your code editor for `UPDATE_THIS_` and update all instances with the relevant value (**except for .env.local.example!**)
+1. Do a `Search All` in your code editor for `UPDATE_THIS` and update all instances with the relevant value (**except for .env.local.example!**)
 1. Delete the `delete-me` dir
 
-### 8. Check it out!
+### 9. Check it out!
 
 You did it! You should be able to look in your Stripe dashboard and see your products, and you should also see the same data has been populated in your Supabase database. Now let's test everything.
 
@@ -152,6 +159,22 @@ There are many auth providers you can choose from. [See the Supabase docs](https
 - [Learn more about theming with shadcn/ui](https://ui.shadcn.com/docs/theming)
 - [Learn more about the Tailwindcss theme config](https://tailwindcss.com/docs/theme)
 
+### Emails
+
+Your emails live in the `src/features/emails` dir. Emails are finicky and difficult to style correctly, so make sure to reference the [React Email docs](https://react.email/docs/introduction). After creating your email component, sending an email is as simple as:
+
+```ts
+import WelcomeEmail from '@/features/emails/welcome';
+import { resendClient } from '@/libs/resend/resend-client';
+
+resendClient.emails.send({
+  from: 'no-reply@your-domain.com',
+  to: userEmail,
+  subject: 'Welcome!',
+  react: <WelcomeEmail />,
+});
+```
+
 ### File structure
 
 The file structure uses the group by `feature` concept. This is where you will colocate code related to a specific feature, with the exception of UI code. Typically you want to keep your UI code in the `app` dir, with the exception of reusable components. Most of the time reusable components will be agnostic to a feature and should live in the `components` dir. The `components/ui` dir is where `shadcn/ui` components are generated to.
@@ -160,11 +183,10 @@ The file structure uses the group by `feature` concept. This is where you will c
 
 Follow these steps when you're ready to go live:
 
-- [ ] Activate your Stripe account and set the dashboard to live mode
-- [ ] Repeat the steps above to create a Stripe webhook in live mode, this time using your live url
-- [ ] Update Vercel env variables with your live Stripe pk, sk, and whsec
-- [ ] After Vercel has redeployed with your new env variables, run the fixture command using your Stripe sk
-- [ ] [Configure Supabase SMTP](https://supabase.com/docs/guides/auth/auth-smtp). I recommend using Resend, it's super easy to add with [the Resend integration](https://supabase.com/partners/integrations/resend)
+1. Activate your Stripe account and set the dashboard to live mode
+1. Repeat the steps above to create a Stripe webhook in live mode, this time using your live url
+1. Update Vercel env variables with your live Stripe pk, sk, and whsec
+1. After Vercel has redeployed with your new env variables, run the fixture command using your Stripe sk
 
 ---
 
