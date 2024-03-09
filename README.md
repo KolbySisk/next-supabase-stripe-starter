@@ -200,4 +200,4 @@ PRs are always welcome.
 
 ---
 
-This project was inspired by Vercel's [nextjs-subscription-payments](https://github.com/vercel/nextjs-subscription-payments). The project is a bit dated now, so I decided to build an updated version and include shadcn/ui and a few missing best practices. If you're looking for something without shadcn/ui this project is still a great place to start.
+This project was inspired by Vercel's [nextjs-subscription-payments](https://github.com/vercel/nextjs-subscription-payments).
