@@ -1,10 +1,10 @@
-import { cookies } from 'next/headers';
+// ref: https://github.com/vercel/next.js/blob/canary/examples/with-supabase/app/auth/callback/route.ts
+
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import type { Database } from '@/libs/supabase/types';
+import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 import { getURL } from '@/utils/get-url';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 
 const siteUrl = getURL();
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code');
 
   if (code) {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const supabase = createSupabaseServerClient();
     await supabase.auth.exchangeCodeForSession(code);
 
     const {
