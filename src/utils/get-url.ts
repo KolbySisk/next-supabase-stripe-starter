@@ -1,10 +1,6 @@
 export const getURL = (path: string = '') => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
-  let url = process.env.NEXT_PUBLIC_SITE_URL
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : process.env.NEXT_PUBLIC_VERCEL_URL
-    ? process.env.NEXT_PUBLIC_VERCEL_URL
-    : 'http://localhost:3000/';
+  let url = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
   // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, '');
