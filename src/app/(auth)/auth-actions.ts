@@ -7,7 +7,7 @@ import { ActionResponse } from '@/types/action-response';
 import { getURL } from '@/utils/get-url';
 
 export async function signInWithOAuth(provider: 'github' | 'google'): Promise<ActionResponse> {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
@@ -25,7 +25,7 @@ export async function signInWithOAuth(provider: 'github' | 'google'): Promise<Ac
 }
 
 export async function signInWithEmail(email: string): Promise<ActionResponse> {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
@@ -43,7 +43,7 @@ export async function signInWithEmail(email: string): Promise<ActionResponse> {
 }
 
 export async function signOut(): Promise<ActionResponse> {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {
