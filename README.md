@@ -20,6 +20,7 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 
 ### What's included
 
+- Next.js 15
 - [Supabase](https://supabase.com) - Postgres database & user authentication
 - [Stripe](https://stripe.com) - [Checkout](https://stripe.com/docs/payments/checkout), [subscriptions](https://stripe.com/docs/billing/subscriptions/overview), and [customer portal](https://stripe.com/docs/customer-management)
 - [React Email](https://react.email/) - Easily build emails and send them with [Resend](https://resend.com)
