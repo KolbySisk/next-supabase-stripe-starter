@@ -39,6 +39,29 @@ Bootstrap your SaaS with a modern tech stack built to move quick. Follow the gui
 1. Go to [supabase.com](https://supabase.com) and create a project
 1. Go to Project Settings → Database → Database password and click reset database password then click generate a new password. (I know you already made one, but this fixes a [bug with their CLI where it doesn't like special characters in the password](https://github.com/supabase/supabase/issues/15184))
 1. Save this password somewhere, you can't see it after closing the box
+1. add this redirect url to your project at Authentication -> URL Configuration
+
+```
+http://localhost:3000/auth/callback
+```
+
+1. add this template at Authentication -> Emails -> Confirm Signup:
+
+```
+<h2>Confirm your Signup</h2>
+
+<p>Follow this link to confirm your signup:</p>
+<p><a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup">Confirm Signup</a></p>
+```
+
+1. add this template at Authentication -> Emails -> Magic Link
+
+```
+<h2>Magic Link</h2>
+
+<p>Follow this link to login:</p>
+<p><a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=magiclink">Log In</a></p>
+```
 
 ### 2. Setup Stripe
 
