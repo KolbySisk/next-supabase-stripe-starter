@@ -18,7 +18,7 @@ export async function Navigation() {
         <AccountMenu signOut={signOut} />
       ) : (
         <>
-          <Button variant='sexy' className='hidden flex-shrink-0 lg:flex' asChild>
+          <Button variant='sexy' className='hidden shrink-0 lg:flex' asChild>
             <Link href='/signup'>Get started for free</Link>
           </Button>
           <Sheet>
@@ -29,7 +29,7 @@ export async function Navigation() {
               <SheetHeader>
                 <Logo />
                 <SheetDescription className='py-8'>
-                  <Button variant='sexy' className='flex-shrink-0' asChild>
+                  <Button variant='sexy' className='shrink-0' asChild>
                     <Link href='/signup'>Get started for free</Link>
                   </Button>
                 </SheetDescription>

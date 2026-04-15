@@ -109,7 +109,7 @@ export function PricingCard({
 function CheckItem({ text }: { text: string }) {
   return (
     <div className='flex items-center gap-2'>
-      <IoCheckmark className='my-auto flex-shrink-0 text-slate-500' />
+      <IoCheckmark className='my-auto shrink-0 text-slate-500' />
       <p className='text-sm font-medium text-white first-letter:capitalize'>{text}</p>
     </div>
   );

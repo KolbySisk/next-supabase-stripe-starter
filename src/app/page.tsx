@@ -20,7 +20,7 @@ function HeroSection() {
     <section className='relative overflow-hidden lg:overflow-visible'>
       <Container className='relative rounded-lg bg-black py-20 lg:py-[140px]'>
         <div className='relative z-10 flex flex-col gap-5 lg:max-w-xl lg:pl-8'>
-          <div className='w-fit rounded-full bg-gradient-to-r from-[#616571] via-[#7782A9] to-[#826674] px-4 py-1 '>
+          <div className='w-fit rounded-full bg-linear-to-r from-[#616571] via-[#7782A9] to-[#826674] px-4 py-1 '>
             <span className='font-alt text-sm font-semibold text-black mix-blend-soft-light'>
               Generate banners with DALL·E
             </span>
@@ -49,7 +49,7 @@ function ExamplesSection() {
     <section className='flex flex-col gap-4 overflow-hidden rounded-lg bg-black py-8'>
       <div className='flex justify-center gap-4'>
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example1.png'
           width={600}
           height={200}
@@ -57,7 +57,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example2.png'
           width={600}
           height={200}
@@ -65,7 +65,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example3.png'
           width={600}
           height={200}
@@ -75,7 +75,7 @@ function ExamplesSection() {
       </div>
       <div className='flex gap-4'>
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example4.png'
           width={600}
           height={200}
@@ -83,7 +83,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example5.png'
           width={600}
           height={200}
@@ -91,7 +91,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example6.png'
           width={600}
           height={200}
@@ -101,7 +101,7 @@ function ExamplesSection() {
       </div>
       <div className='flex justify-center gap-4'>
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example7.png'
           width={600}
           height={200}
@@ -109,7 +109,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example8.png'
           width={600}
           height={200}
@@ -117,7 +117,7 @@ function ExamplesSection() {
           quality={100}
         />
         <Image
-          className='flex-shrink-0'
+          className='shrink-0'
           src='/example9.png'
           width={600}
           height={200}

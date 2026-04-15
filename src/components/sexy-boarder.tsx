@@ -15,7 +15,7 @@ export function SexyBoarder({
           right: `-${offset}px`,
           top: `-${offset}px`,
         }}
-        className={`absolute m-auto aspect-square animate-spin-slow rounded-full bg-gradient-to-r from-[#5ED4FF] via-[#D13C5F] to-[#F98324]`}
+        className={`absolute m-auto aspect-square animate-spin-slow rounded-full bg-linear-to-r from-[#5ED4FF] via-[#D13C5F] to-[#F98324]`}
       />
     </div>
   );
