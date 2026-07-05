@@ -4,7 +4,6 @@ import { upsertUserSubscription } from '@/features/account/controllers/upsert-us
 import { upsertPrice } from '@/features/pricing/controllers/upsert-price';
 import { upsertProduct } from '@/features/pricing/controllers/upsert-product';
 import { stripeAdmin } from '@/libs/stripe/stripe-admin';
-import { getEnvVar } from '@/utils/get-env-var';
 
 const relevantEvents = new Set([
   'product.created',
@@ -20,11 +19,14 @@ const relevantEvents = new Set([
 export async function POST(req: Request) {
   const body = await req.text();
   const sig = req.headers.get('stripe-signature') as string;
-  const webhookSecret = getEnvVar(process.env.STRIPE_WEBHOOK_SECRET, 'STRIPE_WEBHOOK_SECRET');
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
 
+  if (!sig || !webhookSecret) {
+    return Response.json({ error: 'Missing signature or webhook secret' }, { status: 401 });
+  }
+
   try {
-    if (!sig || !webhookSecret) return;
     event = stripeAdmin.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (error) {
     return Response.json(`Webhook Error: ${(error as any).message}`, { status: 400 });
