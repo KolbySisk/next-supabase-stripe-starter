@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 import { Database } from '@/libs/supabase/types';
 import { getEnvVar } from '@/utils/get-env-var';
-import { type CookieOptions, createServerClient } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
@@ -14,14 +14,13 @@ export async function createSupabaseServerClient() {
     getEnvVar(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, 'NEXT_PUBLIC_SUPABASE_ANON_KEY'),
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
+        getAll() {
+          return cookieStore.getAll();
         },
-        set(name: string, value: string, options: CookieOptions) {
-          cookieStore.set({ name, value, ...options });
-        },
-        remove(name: string, options: CookieOptions) {
-          cookieStore.set({ name, value: '', ...options });
+        setAll(cookiesToSet) {
+          for (const { name, value, options } of cookiesToSet) {
+            cookieStore.set(name, value, options);
+          }
         },
       },
     }
