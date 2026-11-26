@@ -135,6 +135,8 @@ productMetadata.teamInvites; // The value you set in the fixture
 
 [Migrations](https://supabase.com/docs/reference/cli/supabase-migration-new) are a powerful concept for managing your database schema. Any changes you make to your database schema should be done through migrations.
 
+When you open a migration PR, [RattleCheck](./.github/workflows/rattlecheck.yml) compares its SQL with the base branch and flags new high or critical permission findings. You can run `npx rattlecheck@latest` from the project root to review the full migration history without Supabase credentials.
+
 Say you want to add a table named `invites`.
 
 First run `npm run migration:new add-invites-table`
